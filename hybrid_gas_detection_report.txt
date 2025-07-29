@@ -6,13 +6,13 @@ COMPREHENSIVE ANALYSIS REPORT
 
 SYSTEM OVERVIEW:
 - Architecture: 60% Classical Processing + 40% Quantum-Inspired Processing
-- Dataset: GPLA-12 Acoustic Gas Pipeline Leakage Dataset (Real Data)
+- Dataset: GPLA-12 Acoustic Gas Pipeline Leakage Dataset (Not Real Data)
 - Classification: 12-class acoustic signal classification
 - Drone Optimization: Quantum Voronoi-based path planning
 - Area Coverage: 1000 × 1000 meters
 - Number of Drones: 3
 
-DATASET INFORMATION:
+DATASET (SYNTHETIC) INFORMATION:
 - Total Samples: 684
 - Feature Dimensions: 9
 - Classes: 12
@@ -69,7 +69,7 @@ TECHNICAL INNOVATIONS:
    - Quantum Voronoi optimization for optimal spatial partitioning
 
 2. Real-World Dataset Integration
-   - GPLA-12 acoustic signals from actual gas pipeline systems
+   - GPLA-12 acoustic signals from gas pipeline systems (Synthetic dataset)
    - 12 distinct leakage categories with varying pressure and noise conditions
    - Multi-domain feature extraction (time, frequency, wavelet, statistical)
 
