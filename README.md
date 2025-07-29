@@ -31,6 +31,10 @@ Gas leaks in pipelines can be hazardous to human health, safety, and the environ
 
 ---
 
+![Drone Mission Animation](drone_mission_animation.gif "Drone executing autonomous mission")
+
+---
+
 ## Results Summary
 
 **Best Test Accuracy**: 93.43% (Classical Neural Network)
