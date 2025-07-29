@@ -1,0 +1,68 @@
+{
+  "total_samples": 684,
+  "n_features": 1024,
+  "n_classes": 12,
+  "class_info": {
+    "Data1_0.2MP_none": {
+      "pressure": 0.2,
+      "noise": false,
+      "mic": 1
+    },
+    "Data1_0.2MP_noisy": {
+      "pressure": 0.2,
+      "noise": true,
+      "mic": 1
+    },
+    "Data1_0.4MP_none": {
+      "pressure": 0.4,
+      "noise": false,
+      "mic": 1
+    },
+    "Data1_0.4MP_noisy": {
+      "pressure": 0.4,
+      "noise": true,
+      "mic": 1
+    },
+    "Data1_0.5MP_none": {
+      "pressure": 0.5,
+      "noise": false,
+      "mic": 1
+    },
+    "Data1_0.5MP_noisy": {
+      "pressure": 0.5,
+      "noise": true,
+      "mic": 1
+    },
+    "Data2_0.2MP_none": {
+      "pressure": 0.2,
+      "noise": false,
+      "mic": 2
+    },
+    "Data2_0.2MP_noisy": {
+      "pressure": 0.2,
+      "noise": true,
+      "mic": 2
+    },
+    "Data2_0.4MP_none": {
+      "pressure": 0.4,
+      "noise": false,
+      "mic": 2
+    },
+    "Data2_0.4MP_noisy": {
+      "pressure": 0.4,
+      "noise": true,
+      "mic": 2
+    },
+    "Data2_0.5MP_none": {
+      "pressure": 0.5,
+      "noise": false,
+      "mic": 2
+    },
+    "Data2_0.5MP_noisy": {
+      "pressure": 0.5,
+      "noise": true,
+      "mic": 2
+    }
+  },
+  "description": "GPLA-12 Acoustic Gas Pipeline Leakage Dataset"
+}
