@@ -1,92 +1,101 @@
 
 # Hybrid Quantum-Classical Path Optimization for Multi-Drone Gas Leak Detection
 
-This repository hosts a hybrid AI framework designed for rapid gas leak detection using autonomous UAV (drone) fleets. By combining **Quantum-Inspired Heuristics** with **Classical Path Planning**, the system optimizes for **Time-to-Detection (TTD)** over standard area coverage.
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 
+This repository implements a **Hybrid Partition-and-Routing Heuristic** that combines classical machine learning with quantum-inspired optimization (QUBO) to coordinate drone fleets for industrial gas leak detection. 
 
-
----
-
-## 🛠 Project Overview
-Traditional drone monitoring focuses on uniform area coverage, which is often too slow for emergency response. This framework uses a **Hybrid Partition-and-Routing** approach:
-1.  **Quantum-Inspired Clustering (QUBO)**: Partitioning the search space based on hazard intensity.
-2.  **Classical 2-Opt TSP**: Rapidly routing drones through high-risk waypoints.
+The framework optimizes for **Time-to-Detection (TTD)**, significantly outperforming standard coverage-based methods in emergency response scenarios.
 
 ---
 
-## 🧪 Stage I: Synthetic Validation (Proof of Concept)
-In the initial development phase, the framework was validated using a controlled synthetic environment to benchmark the **Quadratic Unconstrained Binary Optimization (QUBO)** formulation against standard random walk and greedy heuristics.
+## 🛠 System Architecture
 
-### Synthetic Environment Parameters
-* **Area Size**: $1000m \times 1000m$
-* **Target Distribution**: Multi-modal Gaussian hotspots.
-* **Drone Fleet**: 3 to 5 drones with limited endurance.
+The system follows a modular hybrid pipeline:
 
-### Performance on Synthetic Data
-| Algorithm | Avg. Compute Time (s) | Path Efficiency | Convergence Rate |
-| :--- | :--- | :--- | :--- |
-| Random Walk | 0.01s | 12.5% | N/A |
-| Classical Greedy | 0.45s | 78.2% | 100% |
-| **Hybrid QUBO (Simulated)** | **0.12s** | **89.5%** | **98.4%** |
+1.  **Quantum-Inspired Classifier**: Uses **Angle Encoding** and variational circuits to identify leak severity from raw sensor data.
+2.  **Quantum Voronoi Partitioning**: Formulates a **Quadratic Unconstrained Binary Optimization (QUBO)** problem to assign drone deployment sites based on the severity heatmap.
+3.  **Classical Path Generation**: Utilizes a **2-Opt TSP** heuristic to plan the exact flight path for each drone within its assigned partition.
 
 ---
 
-## 📈 Stage II: Real-World Proxy Validation (GPLA-12)
-To simulate a real-world industrial environment, the system utilizes the **GPLA-12 Acoustic Dataset**. While the routing is "payload-agnostic," the acoustic data provides a realistic distribution of leak severities and noise interference.
+## 📊 Data Sources & Methodology
 
+This project utilizes a two-tier validation strategy to transition from theoretical optimization to industrial application.
 
+### 1. Stage I: Synthetic Validation
+Initial benchmarking was performed using a synthetic "Hazard Topology" in a simulated $1000m \times 1000m$ environment. 
+* **Purpose:** To isolate the performance of the QUBO solver and verify convergence across different fleet sizes (5–20 drones).
+* **Generation:** Multi-modal Gaussian distributions create "ground truth" leak intensities.
 
-### The "M3" Baseline Comparison
-A critical addition to our research was **Method 3 (M3)**: an Intensity-Weighted K-Means algorithm. This ensured the Hybrid Q-C model was compared against the strongest possible classical heuristic.
+### 2. Stage II: Real-World Proxy (GPLA-12)
+Final validation uses the **GPLA-12 Acoustic Signal Dataset** to provide realistic hazard inputs.
+* **Source:** Collected by researchers at the University of Adelaide. [Reference: Li & Yao, 2021]
+* **Composition:** 684 samples across 12 classes simulating various pipeline pressures and leakage types.
+* **Role:** Acoustic signals are processed through the hybrid ensemble to generate the severity scores that drive the spatial optimization.
 
-| Metric | M1 (Random) | M2 (K-Means) | M3 (IW K-Means) | **Hybrid Q-C** |
+---
+
+## 📈 Performance Results
+
+The framework was benchmarked against three classical baselines. **Method 3 (M3)** is a high-performance, intensity-weighted K-Means algorithm used to ensure a fair comparison with the proposed model.
+
+### Comparative Analytics (7-Drone Fleet)
+
+| Metric | M1 (Random) | M2 (K-Means) | M3 (IW K-Means) | **Hybrid Q-C (Ours)** |
 | :--- | :--- | :--- | :--- | :--- |
 | **Mean TTD (s)** | 66.2s | 45.1s | 43.9s | **10.0s** |
-| **HR Leak TTD (s)** | 64.8s | 42.1s | 40.7s | **9.4s** |
-| **Compute Time** | 0.02s | 1.80s | 2.67s | **0.21s** |
+| **High-Risk TTD (s)** | 64.8s | 42.1s | 40.7s | **9.4s** |
+| **Compute Time (s)** | 0.02s | 1.80s | 2.67s | **0.21s** |
 | **Speedup vs M3** | - | - | 1.0x | **12.7x** |
 
-### Statistical Rigor
-* **$p$-values**: All results are statistically significant ($p \le 0.0002$ via Mann-Whitney U tests).
-* **Reproducibility**: Fixed seeds (`numpy=42`, `tensorflow=42`) ensure consistent results across runs.
+**Statistical Note:** Results are averaged over $n=10$ runs with fixed seeds (`numpy=42`, `tensorflow=42`). The speedup is statistically significant ($p \le 0.0002$ via Mann-Whitney U tests).
 
 ---
 
-## 🚁 Drone Mission Visualization
-The system generates a dynamic mission map where drone responsibilities are divided using a **Quantum-inspired Voronoi** partition.
+## 📽 Visualizations
 
+The system provides several layers of visualization to interpret the optimization results:
 
+* **Hazard Heatmaps**: Visualizes the density of the GPLA-12 derived leak spots.
+* **Voronoi Cells**: Displays the QUBO-derived boundaries for drone responsibility.
+* **Mission Animation**: A real-time `.gif` showing drones traversing optimized paths.
 
-> **Figure 1**: The background heatmap represents normalized leak intensity. White lines represent the boundaries of the Voronoi cells calculated via QUBO, and the colored paths show the optimized 2-opt TSP routes for the 7-drone fleet.
-
----
-
-## 🔑 Key Features
-* **Trainable Quantum-Inspired Classifier**: Achieves **89.05% accuracy** using angle encoding and variational layers.
-* **QUBO Scaling**: Analyzes problem growth from 2,052 to 13,680 binary variables.
-* **Payload-Agnostic Routing**: Compatible with optical, electrochemical, or acoustic sensors.
-* **Real-time Animation**: Automatically generates `drone_mission_animation.gif` for mission debriefing.
+*(Note: In the provided source code, animations are saved as `drone_mission_animation.gif` for mission debriefing.)*
 
 ---
 
 ## 🚀 Installation & Usage
 
-### 1. Clone the Repo
+### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/hybrid-gas-leak-detection.git
-cd hybrid-gas-leak-detection
+git clone https://github.com/yourusername/hybrid-gas-leakage-detection.git
+cd hybrid-gas-leakage-detection
 ```
 
-### 2. Install Dependencies
+### 2. Install Requirements
 ```bash
 pip install -r requirements.txt
 ```
 
 ### 3. Run the Simulation
-You can run the full pipeline (from data loading to animation) via the main script:
+The full end-to-end pipeline (data processing → optimization → animation) is contained in the main script:
 ```python
 python hybrid_gas_leakage_system.py
 ```
 
 ---
-**Disclaimer**: This project is for research purposes. All "Quantum" results are produced using classical simulation of quantum heuristics.
+
+## 📜 Citations & Credits
+
+### Original Dataset
+If you use the GPLA-12 data, please cite:
+> Li, J., & Yao, L. (2021). **GPLA-12: An Acoustic Signal Dataset of Gas Pipeline Leakage.** arXiv preprint arXiv:2106.10277. [Source](https://arxiv.org/abs/2106.10277)
+
+---
+
+## ⚠️ Disclaimer
+This project is an **algorithmic proof-of-concept**. All "Quantum" components are currently executed via **classical simulation** of quantum heuristics. It is intended for academic research and is not certified for deployment in safety-critical industrial infrastructure.
+
+## 📄 License
+This project is licensed under the **MIT License**. See the `LICENSE` file for details.
